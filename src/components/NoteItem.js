@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { NotesContext } from '../context/NotesContext'
 
-// Simple Node Item
 export function NoteItem({ note }) {
   const { setEditingNote, deleteNote, theme } = useContext(NotesContext)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -23,20 +22,40 @@ export function NoteItem({ note }) {
 
   return (
     <div className={`
-      group p-6 rounded-lg 
-      transition-all duration-300
+      group relative
+      p-6 rounded-xl
+      transition-all duration-500 ease-out
       ${theme === 'dark' ? 'bg-[#282828]' : 'bg-white'}
-      transform hover:-translate-y-2 hover:scale-102
-      hover:shadow-xl hover:shadow-blue-500/20
-      cursor-pointer
-      relative
-      before:absolute before:inset-0 
-      before:rounded-lg
-      before:transition-colors
-      before:duration-300
-      hover:before:ring-2
-      hover:before:ring-blue-500/50
-      dark:hover:before:ring-blue-400/50
+      hover:shadow-2xl
+      hover:shadow-blue-500/10
+      dark:hover:shadow-blue-400/10
+      hover:-translate-y-2
+      hover:scale-102
+      before:absolute
+      before:inset-0
+      before:rounded-xl
+      before:transition-all
+      before:duration-500
+      before:[transform:skew(-0.5deg,0.5deg)]
+      hover:before:[transform:skew(-1deg,1deg)]
+      before:bg-gradient-to-br
+      before:from-transparent
+      before:to-blue-500/5
+      dark:before:to-blue-400/5
+      before:-z-10
+      after:absolute
+      after:inset-0
+      after:rounded-xl
+      after:transition-all
+      after:duration-500
+      after:[transform:skew(0.5deg,-0.5deg)]
+      hover:after:[transform:skew(1deg,-1deg)]
+      after:bg-gradient-to-tr
+      after:from-transparent
+      after:to-purple-500/5
+      dark:after:to-purple-400/5
+      after:-z-20
+      transform-gpu
     `}>
       <div className="relative z-10">
         <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200 truncate">
@@ -55,7 +74,7 @@ export function NoteItem({ note }) {
                 setIsExpanded(!isExpanded)
               }}
               className="mt-2 text-blue-500 hover:text-blue-700 text-sm font-medium 
-                transition-colors duration-300"
+                transition-colors duration-300 hover:scale-105 transform"
             >
               {isExpanded ? 'Show less' : 'Show more'}
             </button>
@@ -70,13 +89,15 @@ export function NoteItem({ note }) {
               <span className="block sm:inline-block">Updated: {formatDate(note.updatedAt)}</span>
             )}
           </div>
-          <div className="mt-2 sm:mt-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="mt-2 sm:mt-0 opacity-0 group-hover:opacity-100 transition-all duration-300 
+            transform translate-y-1 group-hover:translate-y-0">
             <button
               onClick={(e) => {
                 e.stopPropagation()
                 setEditingNote(note)
               }}
-              className="text-blue-500 hover:text-blue-700 mr-2 transition-colors duration-300"
+              className="text-blue-500 hover:text-blue-700 mr-2 
+                transition-all duration-300 hover:scale-110"
             >
               Edit
             </button>
@@ -85,7 +106,8 @@ export function NoteItem({ note }) {
                 e.stopPropagation()
                 deleteNote(note.id)
               }}
-              className="text-red-500 hover:text-red-700 transition-colors duration-300"
+              className="text-red-500 hover:text-red-700 
+                transition-all duration-300 hover:scale-110"
             >
               Delete
             </button>
